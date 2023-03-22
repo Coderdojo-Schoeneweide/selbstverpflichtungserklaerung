@@ -8,11 +8,22 @@
 \usepackage{parskip}
 \usepackage{enumitem}
 \usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{textcomp}
 
 \renewcommand*\familydefault{\sfdefault}
 \pagenumbering{gobble}
 
 \newcommand{\hint}[1]{{\footnotesize\color{gray}#1}}
+\renewcommand{\MakeTextField}[2]{{\vbox to #2{\vfill\hbox to #1{\hrulefill}}}}
+\newlength{\tfl}%
+\newcommand{\TextFieldFill}[2][]{%
+    \setlength{\tfl}{\linewidth}%
+    \settowidth{\dimen0}{#2}%
+    \addtolength{\tfl}{-\dimen0}%
+    \addtolength{\tfl}{-1em}%
+    \TextField[#1, bordercolor={}, backgroundcolor={}, width=\tfl]{#2}%
+}
 
 \begin{document}
 
@@ -21,13 +32,12 @@
 
     Hiermit erkläre ich,
 
-    \hint{(Vor- und Nachname(n))}
-    \hrulefill
-    ,
+    \TextFieldFill[name=name]{\raisebox{0.4em}{\hint{(Vor- und Nachname(n))}}} ,
 
-    geboren am \hint{(Tag.Monat.Jahr)}
-    \hrulefill
-    ,
+    \raisebox{0.4em}{geboren am \hint{(Tag.Monat.Jahr)}}
+    \TextField[bordercolor={}, backgroundcolor={}, width=1cm, maxlen=2, name=day]{} .
+    \TextField[bordercolor={}, backgroundcolor={}, width=1cm, maxlen=2, name=month]{} .
+    \TextField[bordercolor={}, backgroundcolor={}, width=2cm, maxlen=4, name=year]{} ,
 
     dass gegen mich keine Verurteilung vorliegt und kein Verfahren anhängig ist wegen einer Straftat nach
 
@@ -66,14 +76,16 @@
         \item § 236 StGB (Kinderhandel)
     \end{itemize}
 
-    \vspace{2cm}
+    \vspace{1.5cm}
 
-    \hrulefill
-
-    \begin{minipage}{0.5\textwidth}
+    \begin{minipage}{0.4\textwidth}
+        \TextFieldFill[name=dateplace]{}
         \hint{(Ort, Datum)}
     \end{minipage}
-    \begin{minipage}{0.5\textwidth}
+    \begin{minipage}{0.6\textwidth}
+        \vspace{1.2em}
+        \hrulefill
+
         \hint{(Unterschrift)}
     \end{minipage}
 \end{document}
